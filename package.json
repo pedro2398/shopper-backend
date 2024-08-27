@@ -1,0 +1,28 @@
+{
+  "name": "shopper-backend",
+  "version": "1.0.0",
+  "main": "app.ts",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedro2398/shopper-backend.git"
+  },
+  "author": "pedro2398",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pedro2398/shopper-backend/issues"
+  },
+  "homepage": "https://github.com/pedro2398/shopper-backend#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21"
+  }
+}
