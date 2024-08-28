@@ -1,29 +1,25 @@
-import { ICustomer } from '../../interfaces/uploadInterfaces';
-import { PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
-import { Customer } from './customer';
+import { PrimaryGeneratedColumn, Column, ManyToOne, Entity} from 'typeorm';
 
+@Entity()
 export class Measure {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: string;
 
     @Column({ type: 'text', unique: true })
-    uuid: string;
+    measure_uuid: string;
 
     @Column({ type: 'timestamp' })
-    datetime: Date;
+    measure_datetime: Date;
 
     @Column({ type: 'text' })
-    type: string;
+    measure_type: string;
 
     @Column({ type: 'boolean', default: false })
-    confirmed: boolean;
+    has_confirmed: boolean;
 
     @Column({ type: 'text' })
-    image: string;
+    image_url: string;
 
     @Column({ type: 'text' })
-    customerCode: string;
-
-    @ManyToOne(() => Customer, customer => customer.measures)
-    customer: ICustomer;
+    customer_code: string;
 }

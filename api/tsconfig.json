@@ -17,7 +17,8 @@
     "rootDir": "./src"                            
   },
   "include": [
-    "src/**/*.ts"                               
+    "src/**/*.ts",
+    "src/db/entities/measure.ts" 
   ],
   "exclude": [
     "./api/node_modules",

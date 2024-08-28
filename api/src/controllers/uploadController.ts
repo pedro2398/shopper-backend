@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
+import { IUploadRequest } from '../interfaces';
+import { uploadService } from '../services/uploadService';
 
+export default async function uploadController(req: any, res: any) {
+    const requestBody: IUploadRequest = req.body;
+    const response = await uploadService(requestBody);
 
-export default function uploadController(req: Request, res: Response) {
-    const requestBody = req.body;
-
-
-   return res.json().status(200)
+    return res.json(response);
 }

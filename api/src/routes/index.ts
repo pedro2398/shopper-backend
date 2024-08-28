@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import uploadController from '../controllers/uploadController';
 import confirmController  from '../controllers/confirmController';
-import { measuresController } from '../controllers/ measuresController';
+import { measuresController } from '../controllers/measuresController';
 
 const router = Router();
 
