@@ -6,10 +6,11 @@ export async function saveMeasure(data: Measure) {
     return response;
 }
 
-export async function getMeasureByCustomerCode(customer_code: string) {
+export async function getMeasureByCustomerCode(customer_code: string, measure_type?: string) {
     const response = await AppDataSource.manager.getRepository(Measure).find({
         where: {
-            customer_code
+            customer_code,
+            measure_type
         }
     })
 

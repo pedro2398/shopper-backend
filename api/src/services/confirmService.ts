@@ -49,7 +49,6 @@ export async function confirmService(data: IConfirmRequest) {
 
     const measure = await getMeasureByUuid(data.measure_uuid);
 
-
     if(!measure){
         const notFoundMeasure: IError = {
             message: {

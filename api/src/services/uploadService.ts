@@ -1,6 +1,5 @@
 import { getMeasureByCustomerCode, saveMeasure } from '../repository';
 import { IError, IUploadRequest, IUploadResponse } from "../interfaces";
-import {v4 as uuidv4} from 'uuid';
 import { Measure } from '../db/entities';
 import { GoogleAIFileManager } from "@google/generative-ai/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -23,7 +22,7 @@ async function verifyMonth(data: Date, customer_code: string) {
   })
 }
 
-async function verifyData(data: Record<any, any>) {
+async function verifyData(data: IUploadRequest) {
 
   class dataClass {
     @IsString({ message: 'Image deve ser um Blob' })
@@ -53,13 +52,17 @@ async function verifyData(data: Record<any, any>) {
     }
   });
 
-  if (!data.image || data.image.length % 4 !== 0) {
+  if(data.measure_type != "WATER" && data.measure_type != "GAS") {
+    throw new Error("Tipo de medição não permitida");
+}
+
+  if (!data.image || data.image.toString().length % 4 !== 0) {
     throw new Error("base64 inválido!");
   }
 
   const base64 = /^[A-Za-z0-9+/]+[=]{0,2}$/;
 
-  if(!base64.test(data.image)) {
+  if(!base64.test(data.image.toString())) {
       throw new Error("base64 inválido!");
   };
 }
@@ -96,7 +99,7 @@ export async function uploadService(data: IUploadRequest ) {
     throw invalidMonth;
   }
 
-  const imagePath = path.join(__dirname, '../img/imagem.jpg');
+  const imagePath = path.join(__dirname, '../img/img.jpg');
   const imageBuffer = Buffer.from(data.image.toString(), 'base64')  
 
   fs.writeFileSync(imagePath, imageBuffer);
@@ -143,7 +146,7 @@ export async function uploadService(data: IUploadRequest ) {
   
   await fs.unlink(imagePath, (err) => {
     if (err) {
-        return new Error(`Erro ao deletar imagem: ${err.message}`);
+        throw `Erro ao deletar imagem: ${err.message}`;
     }
   });
 
