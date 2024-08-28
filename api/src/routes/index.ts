@@ -6,7 +6,7 @@ import { measuresController } from '../controllers/ measuresController';
 
 const router = Router();
 
-router.get('/upload', uploadController);
+router.post('/upload', uploadController);
 router.get('/confirm', confirmController);
 router.get('/list', measuresController);
 
