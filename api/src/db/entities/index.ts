@@ -1,11 +1,8 @@
-import { PrimaryGeneratedColumn, Column, ManyToOne, Entity} from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity} from 'typeorm';
 
-@Entity()
+@Entity('measures')
 export class Measure {
-    @PrimaryGeneratedColumn()
-    id: string;
-
-    @Column({ type: 'text', unique: true })
+    @PrimaryGeneratedColumn('uuid')
     measure_uuid: string;
 
     @Column({ type: 'timestamp' })
@@ -22,4 +19,7 @@ export class Measure {
 
     @Column({ type: 'text' })
     customer_code: string;
+
+    @Column({ type: 'text' })
+    measure_value: number;
 }

@@ -1,5 +1,5 @@
 export interface IUploadRequest {
-    image : string;
+    image : Blob;
     customer_code :string;
     measure_datetime : Date;
     measure_type: string;

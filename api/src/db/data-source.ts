@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
-import { Measure } from './entities/measure'
+import { Measure } from "./entities";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
