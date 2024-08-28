@@ -7,10 +7,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import * as fs from 'fs';
 import * as path from 'path';
 import 'dotenv/config';
-import { IsDateString, IsString, validate, ValidationError } from 'class-validator';
+import { IsDateString, IsString, validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 
-export async function verifyMonth(data: Date, customer_code: string) {
+async function verifyMonth(data: Date, customer_code: string) {
 
   const measures: Measure[] = await getMeasureByCustomerCode(customer_code);
   data = new Date(data);
@@ -23,7 +23,7 @@ export async function verifyMonth(data: Date, customer_code: string) {
   })
 }
 
-export async function verifyData(data: Record<any, any>) {
+async function verifyData(data: Record<any, any>) {
 
   class dataClass {
     @IsString({ message: 'Image deve ser um Blob' })
@@ -71,8 +71,11 @@ export async function uploadService(data: IUploadRequest ) {
   } catch(err: any) {
 
     const invalidData: IError = {
-      error_code: "INVALID_DATA",
-      error_description: err.message
+      message: {
+        error_code: "INVALID_DATA",
+        error_description: err.message
+      },
+      status_code: 400
     }
 
     throw invalidData;
@@ -83,8 +86,11 @@ export async function uploadService(data: IUploadRequest ) {
   } catch(err: any) {
 
     const invalidMonth: IError ={
-      error_code: "DOUBLE_REPORT",
-      error_description: err.message
+      message: {
+        error_code: "DOUBLE_REPORT",
+        error_description: err.message
+      },
+      status_code: 409
     }
 
     throw invalidMonth;
@@ -95,7 +101,7 @@ export async function uploadService(data: IUploadRequest ) {
 
   fs.writeFileSync(imagePath, imageBuffer);
 
-  const api_key = "AIzaSyB93mfZXGP8v8stpJnVbQsn6jFd6P_--Q8"//process.env.GEMINI_API_KEY as string;
+  const api_key = process.env.GEMINI_API_KEY as string;
   const fileManager = new GoogleAIFileManager(api_key);
   const genAI = new GoogleGenerativeAI(api_key);
     
@@ -108,17 +114,17 @@ export async function uploadService(data: IUploadRequest ) {
   });
   
   const result = await model.generateContent([
-      {
-        fileData: {
-          mimeType: "image/jpeg",
-          fileUri: uploadResponse.file.uri
-        }
-      },
-      { text: "I want you to read the number that this water meter is displaying, and return a JSON with that value, for example: {measure: **value**} (no use ```json```)" },
-    ]);
+    {
+      fileData: {
+        mimeType: "image/jpeg",
+        fileUri: uploadResponse.file.uri
+      }
+    },
+    { text: "I want you to read the number that this water meter is displaying, and return a JSON with that value, for example: {measure: **value**} (no use ```json```)" },
+  ]);
   
   const measureNumber = JSON.parse(result.response.text()).measure as number;
-
+  
   const measure = new Measure();
   measure.has_confirmed = false;
   measure.measure_datetime = data.measure_datetime;
@@ -126,15 +132,15 @@ export async function uploadService(data: IUploadRequest ) {
   measure.measure_type = data.measure_type;
   measure.customer_code = data.customer_code;
   measure.measure_value = measureNumber;
-
+  
   const measureResponse = await saveMeasure(measure);
-
+  
   const response: IUploadResponse = {
     image_url: uploadResponse.file.uri,
     measure_value: measureNumber,
     measure_uuid: measureResponse.measure_uuid,
   }
-
+  
   await fs.unlink(imagePath, (err) => {
     if (err) {
         return new Error(`Erro ao deletar imagem: ${err.message}`);

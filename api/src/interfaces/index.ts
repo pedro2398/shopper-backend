@@ -21,6 +21,15 @@ export interface IMeasure {
 }
 
 export interface IError {
-    error_code: string;
-    error_description: string;
+    message: {
+        error_code: string;
+        error_description: string;
+    }
+    status_code?: number;
+} 
+
+export interface IConfirmRequest {
+    measure_uuid: string;
+    confirmed_value: number;
 }
+

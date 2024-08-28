@@ -6,7 +6,7 @@ import { measuresController } from '../controllers/measuresController';
 const router = Router();
 
 router.post('/upload', uploadController);
-router.get('/confirm', confirmController);
+router.patch('/confirm', confirmController);
 router.get('/list', measuresController);
 
 export default router;

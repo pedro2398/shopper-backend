@@ -9,6 +9,7 @@ export default async function uploadController(req: Request, res: Response) {
         const response = await uploadService(requestBody);
         res.status(200).json(response);
     } catch (err: any) {
-        res.status(400).json(err)
+        const errorStatusCode = err.status_code? err.status_code: 500;
+        res.status(errorStatusCode).json(err.message)
     }
 }

@@ -10,7 +10,6 @@ export const AppDataSource = new DataSource({
     password: "postgres",
     database: "postgres",
     synchronize: true,
-    logging: true,
     entities: [ Measure ],
 })
 

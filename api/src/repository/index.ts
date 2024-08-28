@@ -12,5 +12,16 @@ export async function getMeasureByCustomerCode(customer_code: string) {
             customer_code
         }
     })
+
+    return response;
+}
+
+export async function getMeasureByUuid(measure_uuid: string) {
+    const response = await AppDataSource.manager.getRepository(Measure).findOne({
+        where: {
+            measure_uuid
+        }
+    })
+
     return response;
 }
