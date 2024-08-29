@@ -3,7 +3,6 @@ import { confirmService } from '../services/confirmService';
 import { IConfirmRequest } from '../interfaces';
 
 export default async function confirmController(req: Request, res: Response) {
-    
     try{
         const requestBody: IConfirmRequest = req.body;
         const response = await confirmService(requestBody);

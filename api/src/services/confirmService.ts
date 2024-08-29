@@ -26,8 +26,6 @@ async function verifyData(data: IConfirmRequest) {
         throw new Error(`parâmetros inválidos: ${errors}`);
         }
     });
-
-    const uuidType = data.measure_uuid.valueOf();
 }
 
 export async function confirmService(data: IConfirmRequest) {

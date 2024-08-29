@@ -3,7 +3,6 @@ import { IUploadRequest } from '../interfaces';
 import { uploadService } from '../services/uploadService';
 
 export default async function uploadController(req: Request, res: Response) {
-    
     try {
         const requestBody: IUploadRequest = req.body;
         const response = await uploadService(requestBody);
