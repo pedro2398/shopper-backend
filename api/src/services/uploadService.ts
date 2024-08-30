@@ -14,9 +14,13 @@ export async function verifyMonth(data: Date, customer_code: string) {
   const measures: Measure[] = await getMeasureByCustomerCode(customer_code);
   data = new Date(data);
   const month = data.getMonth();
-
+  const year = data.getFullYear();
+  
   measures.map(measure => {
-    if(measure.measure_datetime.getMonth() === month){
+    const measureMonth = measure.measure_datetime.getMonth();
+    const measureYear = measure.measure_datetime.getFullYear();
+
+    if(measureMonth === month || measureYear === year){
       throw new Error("Leitura do mês já realizada");
     }
   })

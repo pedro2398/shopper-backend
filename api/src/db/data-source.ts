@@ -4,12 +4,13 @@ import { Measure } from "./entities";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
+    host: "db",
     port: 5432,
     username: "postgres",
     password: "postgres",
     database: "postgres",
     synchronize: true,
+    logging: true,
     entities: [ Measure ],
 })
 

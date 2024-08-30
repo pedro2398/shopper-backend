@@ -2,24 +2,32 @@ services:
   db:
     build: ./db
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     networks:
-    - shopper
+    - network
+    security_opt:
+      - seccomp:unconfined
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
 
   backend:
     build: ./api
     ports: 
-      - "3000:3000"
+      - 3000:3000
     networks:
-      - shopper
+      - network
     depends_on:
-     - db
+      db:
+        condition: service_healthy
 
 networks:
-  shopper:
+  network:
     driver: bridge
     
