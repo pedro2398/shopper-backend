@@ -5,11 +5,11 @@ import { GoogleAIFileManager } from "@google/generative-ai/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import * as fs from 'fs';
 import * as path from 'path';
-import 'dotenv/config';
 import { IsDateString, IsString, validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
+import 'dotenv/config';
 
-async function verifyMonth(data: Date, customer_code: string) {
+export async function verifyMonth(data: Date, customer_code: string) {
 
   const measures: Measure[] = await getMeasureByCustomerCode(customer_code);
   data = new Date(data);
@@ -22,19 +22,19 @@ async function verifyMonth(data: Date, customer_code: string) {
   })
 }
 
-async function verifyData(data: IUploadRequest) {
+export async function verifyData(data: IUploadRequest) {
 
   class dataClass {
-    @IsString({ message: 'Image deve ser um Blob' })
+    @IsString()
     image: Blob;
 
-    @IsString({ message: 'customer_code deve ser uma string!' })
+    @IsString()
     customer_code: string;
 
-    @IsDateString({},{ message: 'measure_datetime deve ser uma data!' })
+    @IsDateString()
     measure_datetime: string; 
 
-    @IsString({ message: 'measure_type deve ser uma string!' })
+    @IsString()
     measure_type: string;
   }
 
@@ -127,7 +127,7 @@ export async function uploadService(data: IUploadRequest ) {
   ]);
   
   const measureNumber = JSON.parse(result.response.text()).measure as number;
-  
+
   const measure = new Measure();
   measure.has_confirmed = false;
   measure.measure_datetime = data.measure_datetime;

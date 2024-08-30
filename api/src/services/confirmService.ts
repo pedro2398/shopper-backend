@@ -76,5 +76,5 @@ export async function confirmService(data: IConfirmRequest) {
 
     await saveMeasure(measure);
 
-    return { succes: true }
+    return { success: true }
 }

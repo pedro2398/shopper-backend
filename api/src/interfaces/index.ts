@@ -1,5 +1,5 @@
 export interface IUploadRequest {
-    image : Blob;
+    image : Blob | string;
     customer_code :string;
     measure_datetime : Date;
     measure_type: string;
@@ -18,6 +18,7 @@ export interface IMeasure {
     has_confirmed: boolean;
     image_url: string;
     customer_code: string;
+    measure_value: number;
 }
 
 export interface IError {
