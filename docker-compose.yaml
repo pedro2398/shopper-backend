@@ -1,0 +1,25 @@
+services:
+  db:
+    build: ./db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+    - shopper
+
+  backend:
+    build: ./api
+    ports: 
+      - "3000:3000"
+    networks:
+      - shopper
+    depends_on:
+     - db
+
+networks:
+  shopper:
+    driver: bridge
+    

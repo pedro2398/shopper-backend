@@ -13,7 +13,7 @@
     "paths": {
       "*": ["node_modules/*"]
     },
-    "outDir": "./dist",
+    "outDir": "./src",
     "rootDir": "./src",
     "types": ["jest", "node"]
   },
@@ -22,6 +22,6 @@
     "__tests__/**/*.ts" 
   ],
   "exclude": [
-    "./api/node_modules",
+    "node_modules"
   ]
 }
