@@ -23,6 +23,8 @@ services:
       - 3000:3000
     networks:
       - network
+    environment:
+       - GEMINI_API_KEY=${GEMINI_API_KEY}
     depends_on:
       db:
         condition: service_healthy

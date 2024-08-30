@@ -1,0 +1,1 @@
+Diretorio destinado ao armazenamento de imagens.

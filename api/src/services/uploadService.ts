@@ -20,7 +20,7 @@ export async function verifyMonth(data: Date, customer_code: string) {
     const measureMonth = measure.measure_datetime.getMonth();
     const measureYear = measure.measure_datetime.getFullYear();
 
-    if(measureMonth === month || measureYear === year){
+    if(measureMonth === month && measureYear === year){
       throw new Error("Leitura do mês já realizada");
     }
   })
@@ -103,23 +103,24 @@ export async function uploadService(data: IUploadRequest ) {
     throw invalidMonth;
   }
 
-  const imagePath = path.join(__dirname, '../img/img.jpg');
+  const imagePath = path.join(__dirname, '../img/img.jpeg');
   const imageBuffer = Buffer.from(data.image.toString(), 'base64')  
-
-  fs.writeFileSync(imagePath, imageBuffer);
-
   const api_key = process.env.GEMINI_API_KEY as string;
   const fileManager = new GoogleAIFileManager(api_key);
   const genAI = new GoogleGenerativeAI(api_key);
-    
+  
   const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-pro",
-    });
+    model: "gemini-1.5-pro",
+  });
+  
+  fs.writeFileSync(imagePath, imageBuffer);
 
   const uploadResponse = await fileManager.uploadFile(imagePath, {
     mimeType: "image/jpeg",
   });
-  
+
+  fs.unlink(imagePath, (err) => `erro ao apagar imagem: ${err}`)
+ 
   const result = await model.generateContent([
     {
       fileData: {
@@ -148,11 +149,5 @@ export async function uploadService(data: IUploadRequest ) {
     measure_uuid: measureResponse.measure_uuid,
   }
   
-  await fs.unlink(imagePath, (err) => {
-    if (err) {
-        throw `Erro ao deletar imagem: ${err.message}`;
-    }
-  });
-
   return response;
 }
