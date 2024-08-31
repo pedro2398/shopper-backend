@@ -26,7 +26,7 @@ obter a medição através da foto de um medidor.</p>
 
 ## LIST
 #### PATCH: http://localhost:3000/<customer code>/list 
-#### http://localhost:3000/<customer code>/list/?measure_type=
+#### PATCH: http://localhost:3000/<customer code>/list/?measure_type=
 #### [ 
     {
     "measure_uuid": "string",
