@@ -25,13 +25,8 @@ obter a medição através da foto de um medidor.</p>
   ]
 
 ## LIST
-#### PATCH: http://localhost:3000/<customer code>/list 
-#### PATCH: http://localhost:3000/<customer code>/list/?measure_type=
-#### [ 
-    {
-    "measure_uuid": "string",
-    "confirmed_value": integer
-    }
-  ]
+#### GET: http://localhost:3000/<customer code>/list 
+#### GET: http://localhost:3000/<customer code>/list/?measure_type=
+
 
   
